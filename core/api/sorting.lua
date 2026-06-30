@@ -50,8 +50,10 @@ function Sort:Iterate()
 				local other = from.item
 
 				if item.itemID == other.itemID and stackable(other) then
-					self:Move(from, target)
-					self:Delay(0.05, 'Run')
+					if self:Move(from, target) then
+						self:Delay(0.05, 'Run')
+						return
+					end
 				end
 			end
 		end
@@ -84,8 +86,10 @@ function Sort:Iterate()
 					end
 				end
 
-				self:Move(item.space, goal)
-				self:Delay(0.05, 'Run')
+				if self:Move(item.space, goal) then
+					self:Delay(0.05, 'Run')
+					return
+				end
 			end
 		end
 	end
