@@ -76,6 +76,10 @@ function SortButton:OnClick(button)
 				function() return self.frame.profile.optimizeSort ~= false end,
 				function() self.frame.profile.optimizeSort = not (self.frame.profile.optimizeSort ~= false) end)
 
+			menu:CreateCheckbox(L.KeepEmptySlots,
+				function() return self.frame.profile.keepEmptySlots end,
+				function() self.frame.profile.keepEmptySlots = not self.frame.profile.keepEmptySlots end)
+
 			menu:CreateCheckbox('Reverse Looting',
 				function() return C.Container.GetInsertItemsLeftToRight() end,
 				function(_,_, menu) DelayedToggle(menu, 'GetInsertItemsLeftToRight', 'SetInsertItemsLeftToRight') end)

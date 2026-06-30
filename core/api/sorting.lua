@@ -166,7 +166,9 @@ function Sort:GetOrder(spaces, family)
 		end
 
 		if space.family == family then
-			tinsert(slots, space)
+			if not self.target.profile.keepEmptySlots or space.item.itemID then
+				tinsert(slots, space)
+			end
 		end
 	end
 
