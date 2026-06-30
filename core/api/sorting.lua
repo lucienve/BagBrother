@@ -67,7 +67,9 @@ function Sort:Iterate()
 		local order, spaces = self:GetOrder(spaces, family)
 		local n = min(#order, #spaces)
 
-		self:OptimizeOrder(order, spaces, n)
+		if self.target.profile.optimizeSort ~= false then
+			self:OptimizeOrder(order, spaces, n)
+		end
 
 		for index = 1, n do
 			local goal = spaces[index]
