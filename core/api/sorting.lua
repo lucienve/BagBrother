@@ -113,7 +113,7 @@ function Sort:GetSpaces()
 		for slot = 1, self.target:NumSlots(bag) do
 			if not locked[slot] then
 				local item = self.target:GetItemInfo(bag, slot)
-				local id = item.itemID
+				local id = item and item ~= Addon.None and item.itemID
 				if id then
 					local name, _,_, level, _,_,_, stack, equip, _, _, class, subclass = C.GetItemInfo(id) 
 
@@ -121,7 +121,7 @@ function Sort:GetSpaces()
 					item.set = (item.class < Enum.ItemClass.Weapon and 0) or Search:BelongsToSet(id) and 1 or 2
 					item.subclass, item.equip, item.level, item.stackSize = subclass or -1, equip, level, stack
 					item.family = C.GetItemFamily(id) or 0
-				elseif item == Addon.None then
+				else
 					item = {}
 				end
 
