@@ -62,11 +62,11 @@ function Sort:Iterate()
 	end
 
 	for _, family in ipairs(families) do
-		local order, spaces = self:GetOrder(spaces, family)
-		local n = min(#order, #spaces)
+		local order, slots = self:GetOrder(spaces, family)
+		local n = min(#order, #slots)
 
 		for index = 1, n do
-			local goal = spaces[index]
+			local goal = slots[index]
 			local item = order[index]
 			item.sorted = true
 
@@ -76,7 +76,7 @@ function Sort:Iterate()
 				for j = index, n do
 					local other = order[j]
 					if other.itemID == item.itemID and other.stackCount == item.stackCount then
-						local d = moveDistance(other, spaces[j])
+						local d = moveDistance(other, slots[j])
 						if d > distance then
 							item = other
 							distance = d
@@ -132,9 +132,9 @@ function Sort:GetSpaces()
 	end
 
 	if self.target.profile.reverseSort then
-		local n, k = #spaces
+		local n = #spaces
 		for i = 1, math.floor(n / 2) do
-			k = n - i + 1
+			local k = n - i + 1
 			spaces[i], spaces[k] = spaces[k], spaces[i]
 			spaces[i].index, spaces[k].index = i, k
 		end
