@@ -151,13 +151,13 @@ function Frame:Startup()
 	self.BorderBox.EditBoxHeaderText:SetText('Enter Filter Name:')
 
 	---@type UIButtonFitToTextBehaviorMixin
-	self.BorderBox.DeleteButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate')
+	self.BorderBox.DeleteButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate') --[[@as UIButtonFitToTextBehaviorMixin]]
 	self.BorderBox.DeleteButton:SetScript('OnClick', GenerateClosure(self.OnDelete, self))
 	self.BorderBox.DeleteButton:SetPoint('BOTTOMLEFT', 13, 13)
 	self.BorderBox.DeleteButton:SetTextToFit(DELETE)
 
 	---@type UIButtonFitToTextBehaviorMixin
-	self.BorderBox.ShareButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate')
+	self.BorderBox.ShareButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate') --[[@as UIButtonFitToTextBehaviorMixin]]
 	self.BorderBox.ShareButton:SetScript('OnClick', GenerateClosure(self.OnShare, self))
 	self.BorderBox.ShareButton:SetPoint('LEFT', self.BorderBox.DeleteButton, 'RIGHT', 0,0)
 	self.BorderBox.ShareButton:SetTextToFit(SOCIAL_SHARE_TEXT)

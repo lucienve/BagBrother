@@ -14,8 +14,8 @@ Frame.Bags = Addon.InventoryBags
 Frame.PickupItem = C.PickupContainerItem
 ---@type CheckButton[]
 Frame.MainMenuButtons = {
-	MainMenuBarBackpackButton,
-	CharacterBag0Slot, CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot
+	MainMenuBarBackpackButton --[[@as CheckButton]],
+	CharacterBag0Slot --[[@as CheckButton]], CharacterBag1Slot --[[@as CheckButton]], CharacterBag2Slot --[[@as CheckButton]], CharacterBag3Slot --[[@as CheckButton]]
 }
 
 if KeyRingButton then

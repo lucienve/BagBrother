@@ -304,7 +304,7 @@ local AceLocale = {}
 ---@param locale string
 ---@param isDefault? boolean
 ---@param silent? boolean|string
----@return table|nil
+---@return table<string, any>|nil
 function AceLocale:NewLocale(application, locale, isDefault, silent) end
 
 ---@class Line : ScriptRegion
