@@ -225,7 +225,7 @@ function Bag:UpdateInfo()
 			local data = self:GetBagInfo(id)
 			if data and data.link then
 				self.link, self.owned = 'item:' .. data.link, true
-				self.itemID, _,_,_, self.icon = GetItemInfoInstant(self.link)
+				self.itemID, _,_,_, self.icon = C_Item.GetItemInfoInstant(self.link)
 			else
 				self.link, self.itemID, self.owned = nil, nil, nil
 			end

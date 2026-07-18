@@ -89,7 +89,7 @@ function Frame:GetBagFamily(bag)
 		if self:IsCached(bag) then
 			local data = self:GetBagInfo(bag)
 			if data and data.link then
-				family = GetItemFamily('item:' .. data.link)
+				family = C_Item.GetItemFamily('item:' .. data.link)
 			end
 		else
 			family = select(2, C.GetContainerNumFreeSlots(bag))

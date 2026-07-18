@@ -68,9 +68,9 @@ function Guild:GetItemInfo(bag, slot)
 
 	local link = GetGuildBankItemLink(bag, slot)
 	if link then
-		local item = {hyperlink = link, itemID = GetItemInfoInstant(link)}
+		local item = {hyperlink = link, itemID = C_Item.GetItemInfoInstant(link)}
 		item.iconFileID, item.stackCount, item.isLocked = GetGuildBankItemInfo(bag, slot)
-		_, _, item.quality = GetItemInfo(link) 
+		_, _, item.quality = C_Item.GetItemInfo(link) 
 		return item
 	end
 	return {}
