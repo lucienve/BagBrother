@@ -146,9 +146,9 @@ function Tab:UpdateTooltip()
 							  
 			if permission then
 				if info.viewable and (withdraw or 0) > 0 and remaining and remaining >= 0 then
-					GameTooltip:AddDoubleLine(permission:gsub('[\(\)]', ''), L.NumRemaining:format(remaining > 0 and AbbreviateNumbers(remaining) or NONE), nil, nil, nil, HIGHLIGHT_FONT_COLOR:GetRGB())
+					GameTooltip:AddDoubleLine(permission:gsub('[()]', ''), L.NumRemaining:format(remaining > 0 and AbbreviateNumbers(remaining) or NONE), nil, nil, nil, HIGHLIGHT_FONT_COLOR:GetRGB())
 				else
-					GameTooltip:AddLine(permission:gsub('[\(\)]', ''))
+					GameTooltip:AddLine(permission:gsub('[()]', ''))
 				end
 			end
 		end
