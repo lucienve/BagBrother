@@ -246,7 +246,7 @@ end
 
 function Cacher:SaveBank(domain, type)
 	for i, bag in pairs(C.Bank.FetchPurchasedBankTabData(type)) do
-		bag.tabNameEditBoxHeader, bag.tabCleanupConfirmation = nil
+		bag.tabNameEditBoxHeader, bag.tabCleanupConfirmation = nil, nil
 		Mixin(self:PopulateBag(domain, bag.ID), bag)
 	end
 end
@@ -270,7 +270,7 @@ function Cacher:PopulateBag(data, bag, ignore)
 			end
 		end
 	else
-		data.items, data.link, data.size = nil
+		data.items, data.link, data.size = nil, nil, nil
 	end
 
 	return data

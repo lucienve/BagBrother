@@ -119,7 +119,7 @@ function TipCounts:AddOwners(tip, link)
 
 			for i, owner in Addon.Owners:Iterate() do
 				local color = owner:GetColorMarkup()
-				local count, locations = 0
+				local count, locations = 0, nil
 
 				if owner.offline and not owner.counts then
 					self:CountItems(owner)

@@ -227,7 +227,7 @@ function Bag:UpdateInfo()
 				self.link, self.owned = 'item:' .. data.link, true
 				self.itemID, _,_,_, self.icon = GetItemInfoInstant(self.link)
 			else
-				self.link, self.itemID, self.owned = nil
+				self.link, self.itemID, self.owned = nil, nil, nil
 			end
 		else
 			self.owned = id <= Addon.NumBags or (id - Addon.NumBags) <= GetNumBankSlots()

@@ -84,7 +84,7 @@ function Settings:Upgrade() -- all code temporary, will be removed eventually
 							value.items = items
 						end
 					else
-						value.tabNameEditBoxHeader, value.tabCleanupConfirmation = nil
+						value.tabNameEditBoxHeader, value.tabCleanupConfirmation = nil, nil
 						upgradeItemFormat(value)
 					end
 				elseif kind == 'string' then

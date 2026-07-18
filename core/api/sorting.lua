@@ -122,9 +122,9 @@ function Sort:GetSpaces()
 	end
 
 	if self.target.profile.reverseSort then
-		local n, k = #spaces
+		local n = #spaces
 		for i = 1, math.floor(n / 2) do
-			k = n - i + 1
+			local k = n - i + 1
 			spaces[i], spaces[k] = spaces[k], spaces[i]
 			spaces[i].index, spaces[k].index = i, k
 		end

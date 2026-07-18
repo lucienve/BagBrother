@@ -6,7 +6,7 @@
 local ADDON, Addon = (...):match('[^_]+'), _G[(...):match('[^_]+')]
 local Log = Addon.Parented:NewClass('LogFrame', 'ScrollingMessageFrame')
 
-local MESSAGE_PREFIX, _ = '|cff009999   '
+local MESSAGE_PREFIX = '|cff009999   '
 local MAX_TRANSACTIONS = 22
 local LOG_TYPES = {
 	deposit = GUILDBANK_DEPOSIT_FORMAT,
