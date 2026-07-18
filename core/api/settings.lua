@@ -3,14 +3,21 @@
 	All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
 local VAR = ADDON .. '_Sets'
 local L = LibStub('AceLocale-3.0'):GetLocale(ADDON)
+
+---@class AddonSettings : AddonModule
+---@field ProfileDefaults table
+---@field GlobalDefaults table
+---@field SetDefaults fun(self: table, target: table, defaults: table): table
 local Settings = Addon:NewModule('Settings')
 
 
 --[[ Startup ]]--
 
+---Initial setup hook for loading and validating settings.
 function Settings:OnLoad()
 	BrotherBags = self:SetDefaults(BrotherBags or {}, {account = {}})
 	Addon.sets = self:SetDefaults(_G[VAR] or {}, Mixin({
@@ -61,6 +68,7 @@ function Settings:OnLoad()
 	self:Upgrade()
 end
 
+---Upgrades older database structures to the current format.
 function Settings:Upgrade() -- all code temporary, will be removed eventually
 	xpcall(function()
 		local OLD_KEYSTONE_FORMAT = '^' .. strrep('%d+:', 6) .. '%d+$'
@@ -120,11 +128,19 @@ end
 
 --[[ API ]]--
 
+---Saves a profile for a character/guild owner.
+---@param realm string Realm name.
+---@param id string Owner ID.
+---@param profile table? Profile table to save, or nil to delete.
 function Settings:SetProfile(realm, id, profile)
 	realm = GetOrCreateTableEntry(Addon.sets.profiles, realm)
 	realm[id] = profile and self:SetDefaults(profile, self.ProfileDefaults)
 end
 
+---Gets the profile for a character/guild owner.
+---@param realm string Realm name.
+---@param id string Owner ID.
+---@return table profile
 function Settings:GetProfile(realm, id)
 	realm = Addon.sets.profiles[realm]
 	return realm and realm[id] or Addon.sets.global

@@ -4,6 +4,7 @@
 		All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
 local C = LibStub('C_Everywhere')
 local Addon = LibStub('WildAddon-1.1'):NewAddon(ADDON, Addon, 'StaleCheck-1.0')
@@ -45,10 +46,14 @@ if C.Bank.AreAnyBankTypesViewable then
 	end
 end
 
+---Sets the current bank type view.
+---@param type integer
 function Addon_SetBankType(type)
 	Addon.BankType = type
 end
 
+---Gets the current bank type view.
+---@return integer
 function Addon_GetBankType()
 	return Addon.BankType or 0
 end
@@ -59,6 +64,7 @@ if not GameFontNormalCenter then
 	font:SetJustifyH('CENTER')
 end
 
+---Initial setup hook for the addon.
 function Addon:OnLoad()
 	SettingsPanel.CategoryList:HookScript('OnShow', function() C.AddOns.LoadAddOn(ADDON .. '_Config') end)
 	if AddonCompartmentFrame then
@@ -79,6 +85,7 @@ function Addon:OnLoad()
 	end)
 end
 
+---Opens the configuration options UI.
 function Addon:ShowOptions()
 	if C.AddOns.LoadAddOn(ADDON .. '_Config') then
 		Addon.GeneralOptions:Open()

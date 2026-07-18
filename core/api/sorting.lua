@@ -3,7 +3,34 @@
 	All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
+
+---@class SortItem : table
+---@field itemID integer?
+---@field stackCount integer?
+---@field stackSize integer?
+---@field class integer?
+---@field subclass integer?
+---@field equip string?
+---@field level integer?
+---@field iconFileID integer?
+---@field set integer?
+---@field family integer?
+---@field sorted boolean?
+---@field space SortSpace?
+---@field isLocked boolean?
+
+---@class SortSpace
+---@field index integer
+---@field bag integer
+---@field slot integer
+---@field family integer
+---@field item SortItem
+
+---@class AddonSorting : AddonModule
+---@field Properties string[]
+---@field target table?
 local Sort = Addon:NewModule('Sorting', 'MutexDelay-1.0')
 local Search = LibStub('ItemSearch-1.3')
 local C = LibStub('C_Everywhere').Item
@@ -19,12 +46,15 @@ Sort.Properties = {
 
 --[[ Process ]]--
 
+---Starts sorting for the target frame/container.
+---@param target table
 function Sort:Start(target)
 	self.target = target
 	self:SendSignal('SORTING_STATUS', target.id)
 	self:Run()
 end
 
+---Runs the sort check and loops.
 function Sort:Run()
 	if self:CanRun() then
 		ClearCursor()
@@ -34,6 +64,7 @@ function Sort:Run()
 	end
 end
 
+---Performs a single iteration of the sort loop.
 function Sort:Iterate()
 	local spaces = self:GetSpaces()
 	local families = self:GetFamilies(spaces)
@@ -84,6 +115,7 @@ function Sort:Iterate()
 	end
 end
 
+---Stops the sorting process.
 function Sort:Stop()
 	self.target = nil
 	self:SendSignal('SORTING_STATUS')
@@ -92,6 +124,8 @@ end
 
 --[[ Data Structures ]]--
 
+---Gathers all open slots (spaces) in the target container.
+---@return SortSpace[]
 function Sort:GetSpaces()
 	local spaces = {}
 
@@ -133,6 +167,9 @@ function Sort:GetSpaces()
 	return spaces
 end
 
+---Returns the list of families (bag types) found in the spaces.
+---@param spaces SortSpace[]
+---@return integer[]
 function Sort:GetFamilies(spaces)
 	local set = {}
 	for _, space in ipairs(spaces) do
@@ -148,6 +185,10 @@ function Sort:GetFamilies(spaces)
 	return list
 end
 
+---Gathers items that fit in a specific family, and slots with that family.
+---@param spaces SortSpace[]
+---@param family integer
+---@return SortItem[] order, SortSpace[] slots
 function Sort:GetOrder(spaces, family)
 	local order, slots = {}, {}
 	local sign = family < 0
@@ -167,6 +208,10 @@ function Sort:GetOrder(spaces, family)
 	return order, slots
 end
 
+---Optimizes moving items of the same ID to minimize cursor pickups.
+---@param order SortItem[]
+---@param spaces SortSpace[]
+---@param n integer
 function Sort:OptimizeOrder(order, spaces, n)
 	local groups = {}
 	for i = 1, n do
@@ -226,10 +271,16 @@ end
 
 --[[ API ]]--
 
+---Checks if sorting can run (not in combat, target is not cached, etc.).
+---@return boolean
 function Sort:CanRun()
-	return not InCombatLockdown() and not UnitIsDead('player') and self.target and not self.target:IsCached()
+	return not InCombatLockdown() and not UnitIsDead('player') and not not self.target and not self.target:IsCached()
 end
 
+---Checks if the item ID fits into a given bag family type.
+---@param id integer
+---@param family integer
+---@return boolean
 function Sort:FitsIn(id, family)
 	if family == 9 then
 		return C.GetItemFamily(id) == 256
@@ -240,6 +291,10 @@ function Sort:FitsIn(id, family)
 	return family <= 0 or (bit.band(C.GetItemFamily(id), family) > 0 and select(9, C.GetItemInfo(id)) ~= 'INVTYPE_BAG')
 end
 
+---Sort comparison rule.
+---@param a SortItem
+---@param b SortItem
+---@return boolean
 function Sort.Rule(a, b)
 	for _,prop in pairs(Sort.Properties) do
 		if a[prop] ~= b[prop] then
@@ -253,10 +308,14 @@ function Sort.Rule(a, b)
 	return a.space.index < b.space.index
 end
 
+---Moves an item from one space to another.
+---@param from SortSpace
+---@param to SortSpace
+---@return boolean locked
 function Sort:Move(from, to)
 	local locked = from.item.isLocked or to.item.isLocked
 	if locked or (to.item.itemID and not self:FitsIn(to.item.itemID, from.family)) then
-		return locked
+		return not not locked
 	end
 
 	ClearCursor()

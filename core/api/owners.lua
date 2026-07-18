@@ -3,7 +3,32 @@
 	All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
+
+---@class Owner : AddonOwners
+---@field id string
+---@field realm string
+---@field name string
+---@field remote boolean
+---@field address string
+---@field profile table
+---@field cache table
+---@field isguild boolean
+---@field offline boolean?
+---@field race string?
+---@field sex integer?
+---@field faction string?
+---@field class string?
+---@field money integer?
+---@field favorite boolean?
+---@field level integer?
+
+---@class AddonOwners : AddonModule
+---@field registry table<table, Owner>
+---@field twins table<string, integer>
+---@field ordered Owner[]
+---@field realms string[]
 local Owners = Addon:NewModule('Owners')
 
 local DEFAULT_COORDS = {0, 1, 0, 1}
@@ -47,6 +72,7 @@ end
 
 --[[ Static API ]]--
 
+---Initial setup of owners registry and twins.
 function Owners:OnLoad()
 	self.registry, self.twins, self.ordered = {}, {}, {}
 	self.realms = {GetNormalizedRealmName(), unpack(GetAutoCompleteRealms())}
@@ -63,6 +89,7 @@ function Owners:OnLoad()
 	self:Sort()
 end
 
+---Updates the active guild bank owner.
 function Owners:OnRoster()
 	local name, _,_, realm = GetGuildInfo('player')
 	if (Addon.guild and Addon.guild.name) ~= name or (Addon.guild and Addon.guild.realm) ~= realm then
@@ -71,6 +98,7 @@ function Owners:OnRoster()
 	end
 end
 
+---Sorts all characters / guilds list.
 function Owners:Sort()
 	for i, owner in ipairs(self.ordered) do
 		owner.offline = owner ~= Addon.player and owner ~= Addon.guild
@@ -90,10 +118,16 @@ function Owners:Sort()
 	end)
 end
 
+---Iterates over the registered owners.
+---@return fun(t: table, i: integer): integer, Owner
+---@return table
+---@return integer
 function Owners:Iterate()
 	return ipairs(self.ordered or Addon.None)
 end
 
+---Gets count of registered owners.
+---@return integer
 function Owners:Count()
 	return #self.ordered
 end
@@ -101,6 +135,10 @@ end
 
 --[[ Object API ]]--
 
+---Registers a new Owner or returns the existing cached owner.
+---@param id string Owner ID (appends '*' for guild).
+---@param realm string Realm name.
+---@return Owner
 function Owners:New(id, realm)
 	local cache = GetOrCreateTableEntry(GetOrCreateTableEntry(BrotherBags, realm), id)
 	if not self.registry[cache] then
@@ -121,6 +159,8 @@ function Owners:New(id, realm)
 	return self.registry[cache]
 end
 
+---Deletes the current owner and clears their profile/cache.
+---@param self Owner
 function Owners:Delete()
 	Addon.Settings:SetProfile(self.realm, self.id, nil)
 	BrotherBags[self.realm][self.id] = nil
@@ -128,16 +168,29 @@ function Owners:Delete()
 	tDeleteItem(Owners.ordered, self)
 end
 
+---Sets the profile for this owner.
+---@param self Owner
+---@param profile table
 function Owners:SetProfile(profile)
 	Addon.Settings:SetProfile(self.realm, self.id, profile)
 	self.profile = Addon.Settings:GetProfile(self.realm, self.id)
 end
 
+---Gets display name with realm and icon markup.
+---@param self Owner
+---@param iconSize integer
+---@return string
 function Owners:GetDisplayName(iconSize)
 	local name = self:IsTwin() and (self.name .. REALM_TAG:format(self.realm)) or self.name
 	return self:GetIconMarkup(iconSize) .. ' '.. self:GetColorMarkup():format(name)
 end
 
+---Helper to construct texture markup for the owner's icon.
+---@param self Owner
+---@param size integer
+---@param x? number
+---@param y? number
+---@return string
 function Owners:GetIconMarkup(size, x, y)
 	local icon, coords = self:GetIcon()
 	if coords then
@@ -148,10 +201,13 @@ function Owners:GetIconMarkup(size, x, y)
 	end
 end
 
+---Retrieves the race/class icon texture for this owner.
+---@param self Owner
+---@return string texture, number[]? coords
 function Owners:GetIcon()
 	if self.race then
 		if RACE_TEXTURE then
-			return RACE_TEXTURE, RACE_TABLE[self.race:upper() .. '_' .. (self.sex == 3 and 'FEMALE' or 'MALE')]
+			return RACE_TEXTURE, RACE_TABLE[self.race:upper() .. '_' .. (self.sex == 3 and 'FEMALE' or 'MALE')] --[[@as number[]?]]
 		end
 
 		local race = self.race:lower()
@@ -161,6 +217,9 @@ function Owners:GetIcon()
 	return self.faction and ALLIANCE_BANNER or HORDE_BANNER, DEFAULT_COORDS
 end
 
+---Gets color markup string.
+---@param self Owner
+---@return string
 function Owners:GetColorMarkup()
 	local color = self:GetColor()
 	local brightness = color.r + color.g + color.b
@@ -169,10 +228,16 @@ function Owners:GetColorMarkup()
 	return CLASS_COLOR:format(min(color.r * scale, 255), min(color.g * scale, 255), min(color.b * scale, 255)) .. '%s|r'
 end
 
+---Gets color of the owner's class.
+---@param self Owner
+---@return table color
 function Owners:GetColor()
 	return self.class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[self.class] or WHITE_FONT_COLOR
 end
 
+---Gets the current money of this owner.
+---@param self Owner
+---@return integer
 function Owners:GetMoney()
 	if self.offline then
 		return self.money or 0
@@ -183,6 +248,9 @@ function Owners:GetMoney()
 	end
 end
 
+---Checks if this owner is present on another realm.
+---@param self Owner
+---@return boolean
 function Owners:IsTwin()
 	return Owners.twins[self.id] > 1 and self.realm ~= Addon.player.realm
 end

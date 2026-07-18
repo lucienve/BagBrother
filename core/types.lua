@@ -2,7 +2,17 @@
 -- core/types.lua
 -- Pure metadata type definitions and whitelisted globals for BagBrother addon, parsed by LuaLS.
 
----@class BagBrotherAddon
+---@class AddonModule : Object
+---@field RegisterEvent fun(self: table, event: string, call?: string|function, ...: any)
+---@field UnregisterEvent fun(self: table, event: string)
+---@field RegisterSignal fun(self: table, event: string, call?: string|function, ...: any)
+---@field UnregisterSignal fun(self: table, event: string)
+---@field SendSignal fun(self: table, event: string, ...: any)
+---@field Delay fun(self: table, time: number|string, func: string|function, ...: any)
+---@field CancelDelay fun(self: table, func: string|function)
+---@field Delaying fun(self: table, func: string|function): boolean
+
+---@class BagBrotherAddon : AddonModule
 ---@field IsRetail boolean True if running on WoW Retail (Mainline).
 ---@field IsClassic boolean True if running on WoW Classic.
 ---@field IsModern boolean True if running on WoW Cataclysm or newer client.
@@ -13,15 +23,24 @@
 ---@field InventoryBags integer[] List of slot indexes representing player inventory bags.
 ---@field BankBags integer[] List of slot indexes representing bank bags.
 ---@field BankType integer Current bank view type (e.g. standard, reagent, etc.).
----@field Frames table Factory module for frames.
+---@field Frames AddonFrames Factory module for frames.
 ---@field GeneralOptions table Options panel module.
 ---@field sets table User settings/configuration table.
+---@field player Owner Active player character info.
+---@field guild Owner? Guild owner info.
+---@field Settings AddonSettings Settings module.
+---@field Owners AddonOwners Owners module.
+---@field Skins AddonSkins Skins module.
+---@field Rules AddonRules Rules module.
+---@field Sorting AddonSorting Sorting module.
+---@field Base Base Base class.
+---@field None table Empty fallback table.
 BagBrotherAddon = {}
 
 ---Registers or fetches an addon module.
 ---@param name string Name of the module.
 ---@param ... any Optional library mixes or delay providers.
----@return table module The created/fetched module table.
+---@return AddonModule module The created/fetched module table.
 function BagBrotherAddon:NewModule(name, ...) end
 
 ---Initial setup hook.
