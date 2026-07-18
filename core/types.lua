@@ -318,14 +318,6 @@ function Line:SetStartPoint(point, relativeTo, xOffset, yOffset) end
 ---@param yOffset? number
 function Line:SetEndPoint(point, relativeTo, xOffset, yOffset) end
 
----@class GameTooltip : Tooltip
-local GameTooltip = {}
----@param text string
----@param r? number|boolean
----@param g? number
----@param b? number
----@param wrap? boolean
-function GameTooltip:AddLine(text, r, g, b, wrap) end
 
 ---@class BankPanelTabSettingsMenuTemplate : Frame, CallbackRegistryMixin
 ---@field selectedTabData table
@@ -350,3 +342,13 @@ function BankPanelTabSettingsMenuTemplate:Update() end
 ---@class CheckButton
 ---@field SlotHighlightTexture table
 ---@field icon table
+
+---@class GameTooltip : Frame
+
+---@overload fun(self: GameTooltip, text: string, wrapText: boolean)
+---@param text string
+---@param r? number
+---@param g? number
+---@param b? number
+---@param wrap? boolean
+function GameTooltip:AddLine(text, r, g, b, wrap) end
