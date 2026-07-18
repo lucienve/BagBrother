@@ -98,8 +98,8 @@ DISPLAY = ""
 EDIT = ""
 ENTER_MACRO_LABEL = ""
 EQUIPSET_EQUIP = ""
-EQUIP_CONTAINER = 0
-EQUIP_CONTAINER_REAGENT = 0
+EQUIP_CONTAINER = ""
+EQUIP_CONTAINER_REAGENT = ""
 ERR_GUILD_PLAYER_NOT_IN_GUILD = ""
 EXPANSION_NAME0 = ""
 EventUtil = {}
@@ -294,3 +294,42 @@ BagBrotherAddon = {}
 
 ---@type function
 function BankButtonIDToInvSlotID(slot) end
+
+-------------------------------------------------------------------------------
+-- Redefined & Overloaded Types for Libs / WoW APIs
+-------------------------------------------------------------------------------
+---@class AceLocale-3.0
+local AceLocale = {}
+---@param application string
+---@param locale string
+---@param isDefault? boolean
+---@param silent? boolean|string
+---@return table|nil
+function AceLocale:NewLocale(application, locale, isDefault, silent) end
+
+---@class Line : ScriptRegion
+local Line = {}
+---@param point string
+---@param relativeTo ScriptRegion|number
+---@param xOffset? number
+---@param yOffset? number
+function Line:SetStartPoint(point, relativeTo, xOffset, yOffset) end
+---@param point string
+---@param relativeTo ScriptRegion|number
+---@param xOffset? number
+---@param yOffset? number
+function Line:SetEndPoint(point, relativeTo, xOffset, yOffset) end
+
+---@class GameTooltip : Tooltip
+local GameTooltip = {}
+---@param text string
+---@param r? number|boolean
+---@param g? number
+---@param b? number
+---@param wrap? boolean
+function GameTooltip:AddLine(text, r, g, b, wrap) end
+
+---@class BankPanelTabSettingsMenuTemplate : Frame, CallbackRegistryMixin
+---@field selectedTabData table
+local BankPanelTabSettingsMenuTemplate = {}
+function BankPanelTabSettingsMenuTemplate:Update() end
