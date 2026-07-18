@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "runtime": {
+    "version": "Lua 5.1",
+    "path": [
+      "?.lua",
+      "?/init.lua"
+    ]
+  },
+  "workspace": {
+    "library": [
+      ".types/wow-api/Annotations"
+    ],
+    "checkThirdParty": "Disable"
+  },
+  "diagnostics": {
+    "globals": [
+      "WOW_PROJECT_ID",
+      "WOW_PROJECT_MAINLINE",
+      "LE_EXPANSION_LEVEL_CURRENT",
+      "LE_EXPANSION_CLASSIC",
+      "LE_EXPANSION_CATACLYSM",
+      "SLASH_BagBrother1",
+      "SLASH_BagBrother2"
+    ]
+  }
+}
