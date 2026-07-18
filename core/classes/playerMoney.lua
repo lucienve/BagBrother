@@ -86,6 +86,9 @@ function Money:OnEnter()
 	for i, entry in ipairs(liquid) do
 		local owner, money = entry.owner, entry.money or 0
 		if i <= 10 or owner.favorite then
+			-- Dev: Redundant-parameter is disabled here because GetMoneyString accepts a third parameter
+			-- showSymbol in WoW API, which is missing from vscode-wow-api annotations and is being fixed upstream.
+			---@diagnostic disable-next-line: redundant-parameter
 			local coins = GetMoneyString(money, true, true)
 			local icon = owner:GetIconMarkup(12,0,0)
 			local color = owner:GetColor(owner)
@@ -99,11 +102,17 @@ function Money:OnEnter()
 	end
 
 	if overflow > 0 then
+		-- Dev: Redundant-parameter is disabled here because GetMoneyString accepts a third parameter
+		-- showSymbol in WoW API, which is missing from vscode-wow-api annotations and is being fixed upstream.
+		---@diagnostic disable-next-line: redundant-parameter
 		GameTooltip:AddDoubleLine('|TInterface/Icons/INV_Misc_QuestionMark:0:0|t '..L.Others, GetMoneyString(overflow, true, true))
 	end
 
 	local account = (C.Bank.FetchDepositedMoney or nop)(2) or 0
 	if account > 0 then
+		-- Dev: Redundant-parameter is disabled here because GetMoneyString accepts a third parameter
+		-- showSymbol in WoW API, which is missing from vscode-wow-api annotations and is being fixed upstream.
+		---@diagnostic disable-next-line: redundant-parameter
 		GameTooltip:AddDoubleLine('|A:questlog-questtypeicon-account:0:0|a '..ACCOUNT_QUEST_LABEL, GetMoneyString(account, true, true))
 	end
 
