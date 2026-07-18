@@ -31,7 +31,9 @@ end
 ---@param id string
 ---@return AddonSkin?
 function Skins:Get(id)
-	return type(id) == 'string' and self.Registry[id]
+	if type(id) == 'string' then
+		return self.Registry[id]
+	end
 end
 
 function Skins:Iterate()
