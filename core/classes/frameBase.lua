@@ -167,7 +167,7 @@ function Frame:GetItemInfo(bag, slot)
 		local prefix = data:sub(1,9)
 		if prefix == 'battlepet' then
 			local id, quality = data:match(':(%d+):%d+:(%d+)')
-			local id, quality = tonumber(id), tonumber(quality) or 1
+			local id, quality = tonumber(id) or 0, tonumber(quality) or 1
 			local name, icon = C_PetJournal.GetPetInfoBySpeciesID(id)
 
 			return { itemID = id, iconFileID = icon, quality = quality,

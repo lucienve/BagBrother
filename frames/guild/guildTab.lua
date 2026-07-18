@@ -130,9 +130,9 @@ function Tab:UpdateTooltip()
 	if info.name then
 		GameTooltip:SetText(info.name, 1,1,1)
 
-		local text = strtrim(GetGuildBankText(self:GetID()))
+		local text = strtrim(GetGuildBankText(self:GetID()) or '')
 		if text ~= '' then
-			GameTooltip:AddLine('"' .. text .. '"', _,_,_, true)
+			GameTooltip:AddLine('"' .. text .. '"', nil, nil, nil, true)
 		else
 			QueryGuildBankText(self:GetID())
 		end 
@@ -146,7 +146,7 @@ function Tab:UpdateTooltip()
 							  
 			if permission then
 				if info.viewable and (withdraw or 0) > 0 and remaining and remaining >= 0 then
-					GameTooltip:AddDoubleLine(permission:gsub('[\(\)]', ''), L.NumRemaining:format(remaining > 0 and AbbreviateNumbers(remaining) or NONE), _,_,_, HIGHLIGHT_FONT_COLOR:GetRGB())
+					GameTooltip:AddDoubleLine(permission:gsub('[\(\)]', ''), L.NumRemaining:format(remaining > 0 and AbbreviateNumbers(remaining) or NONE), nil, nil, nil, HIGHLIGHT_FONT_COLOR:GetRGB())
 				else
 					GameTooltip:AddLine(permission:gsub('[\(\)]', ''))
 				end
@@ -156,7 +156,7 @@ function Tab:UpdateTooltip()
 		GameTooltip:Show()
 	elseif self:CanPurchase() then
 		GameTooltip:SetText(BUY_GUILDBANK_TAB, 1,1,1)
-		GameTooltip:AddLine(GetMoneyString(GetGuildBankTabCost(), true))
+		GameTooltip:AddLine(GetMoneyString(GetGuildBankTabCost() or 0, true))
 		GameTooltip:Show()
 	end
 end

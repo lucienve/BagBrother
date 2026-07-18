@@ -92,7 +92,7 @@ end
 
 function Log:PrintTransactions()
 	for i = 1, self.numTransactions do 
-		local type, name, itemLink, count, tab1, tab2, year, month, day, hour = self:ProcessLine(GetGuildBankTransaction(GetCurrentGuildBankTab(), i))
+		local type, name, itemLink, count, tab1, tab2, year, month, day, hour = self:ProcessLine(GetGuildBankTransaction(GetCurrentGuildBankTab() or 1, i))
 		local msg
 
 		if type == 'deposit' then

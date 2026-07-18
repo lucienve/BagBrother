@@ -45,7 +45,7 @@ function Frame:HighlightMainMenu()
 		elseif button.icon then
 			button:SetChecked(active)
 		elseif active then
-			button:SetButtonState('PUSHED', 1)
+			button:SetButtonState('PUSHED', true)
 		else
 			button:SetButtonState('NORMAL')
 		end

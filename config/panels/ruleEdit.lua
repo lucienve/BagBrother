@@ -45,9 +45,12 @@ function Frame:OpenMenu(anchor)
 				editBox = '',
 
 				OnAccept = function(_, encoded)
-					local ok, rule = pcall(loadstring('return ' .. encoded))
-					if ok and rule then
-						self:Create(rule)
+					local func = loadstring('return ' .. encoded)
+					if func then
+						local ok, rule = pcall(func)
+						if ok and rule then
+							self:Create(rule)
+						end
 					end
 				end
 			}

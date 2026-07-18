@@ -10,7 +10,7 @@ Skins.Registry = {}
 
 local L = LibStub('AceLocale-3.0'):GetLocale(ADDON)
 local Meta = getmetatable(UIParent).__index
-local function Error(...)
+local function OnError(...)
 	print('|cff33ff99' .. ADDON .. '|r ' .. L.SkinError)
 	geterrorhandler()(...)
 end
@@ -60,7 +60,7 @@ function Skins:Acquire(id, parent)
 end
 
 function Skins:__call(key, ...)
-	xpcall(GetValueOrCallFunction, Error, self.skin, key, self, ...)
+	xpcall(GetValueOrCallFunction, OnError, self.skin, key, self, ...)
 end
 
 function Skins:__index(key)

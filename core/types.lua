@@ -153,7 +153,7 @@ GetReagentBankCost = {}
 GetTradeSkillItemLink = {}
 GetTradeSkillReagentItemLink = {}
 GetUnscaledFrameRect = {}
-GetValueOrCallFunction = {}
+function GetValueOrCallFunction(...) end
 GetValuesArray = {}
 GetVoidItemInfo = {}
 GetVoidTransferCost = {}
