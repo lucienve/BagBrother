@@ -66,8 +66,10 @@ function OfflineSelector:OnClick(button)
 			drop:CreateTitle(L.Locations)
 
 			local frames = drop:CreateFrame()
-			frames:AddResetter(function(f) f.group:Release() end)
-			frames:AddInitializer(function(f)
+			frames:AddResetter(---@param f any
+			function(f) f.group:Release() end)
+			frames:AddInitializer(---@param f any
+			function(f)
 				f.group = self:AddLocations(f)
 				return f.group:GetWidth() + (Addon.IsRetail and 0 or 10), f.group:GetHeight()
 			end)

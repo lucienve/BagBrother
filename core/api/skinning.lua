@@ -6,6 +6,7 @@
 
 local ADDON, Addon = ...
 local Skins = Addon:NewModule('Skins', 'MutexDelay-1.0')
+---@type table<string, AddonSkin>
 Skins.Registry = {}
 
 local L = LibStub('AceLocale-3.0'):GetLocale(ADDON)
@@ -27,6 +28,8 @@ function Skins:Register(skin)
 	self:Delay('SendSignal', 'SKINS_LOADED')
 end
 
+---@param id string
+---@return AddonSkin?
 function Skins:Get(id)
 	return type(id) == 'string' and self.Registry[id]
 end

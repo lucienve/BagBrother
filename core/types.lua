@@ -333,3 +333,22 @@ function GameTooltip:AddLine(text, r, g, b, wrap) end
 ---@field selectedTabData table
 local BankPanelTabSettingsMenuTemplate = {}
 function BankPanelTabSettingsMenuTemplate:Update() end
+
+---@class ScrollBoxSelectorMixin : Frame, SelectorMixin
+
+---@class UIButtonFitToTextBehaviorMixin : Button
+
+---@class AddonSkin
+---@field id string
+---@field template string
+---@field skin table
+
+---@class BankPanelTabSettingsMenuMixin
+---@field Event table
+
+---@class Button
+---@field menuGenerator function
+
+---@class CheckButton
+---@field SlotHighlightTexture table
+---@field icon table

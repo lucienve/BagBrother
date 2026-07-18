@@ -5,7 +5,7 @@
 
 local L, ADDON, Addon, Config = select(2, ...).Addon()
 ---@class RuleEditFrame : Frame, IconSelectorPopupFrameTemplateMixin
----@field IconSelector IconSelectorPopupFrameTemplateMixin
+---@field IconSelector ScrollBoxSelectorMixin
 ---@field BorderBox table
 ---@field CodeHeader table
 ---@field Code table
@@ -62,6 +62,7 @@ function Frame:CreateCheckboxes(drop, rules)
 	local isInstalled = function(id)
 		return Addon.Rules:Get(id) and 1 or 0 end
 
+	---@type any
 	local anchor = self:GetParent()
 	local enabled, frame = anchor.rules, anchor.frame
 
@@ -110,7 +111,9 @@ function Frame:Display(rule)
 	self:Startup()
 	self:Show()
 
-	local frame = self:GetParent().frame
+	---@type any
+	local parent = self:GetParent()
+	local frame = parent.frame
 	if frame:IsFarRight() then
 		self:SetPoint('TOPRIGHT', frame, 'TOPLEFT', -38,0)
 	else

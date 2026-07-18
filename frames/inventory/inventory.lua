@@ -12,6 +12,7 @@ Frame.ItemGroup = Addon.ContainerItemGroup
 Frame.BagButton = Addon.Bag
 Frame.Bags = Addon.InventoryBags
 Frame.PickupItem = C.PickupContainerItem
+---@type CheckButton[]
 Frame.MainMenuButtons = {
 	MainMenuBarBackpackButton,
 	CharacterBag0Slot, CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot
