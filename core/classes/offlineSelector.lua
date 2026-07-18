@@ -78,7 +78,7 @@ function OfflineSelector:OnClick(button)
 			drop:CreateTitle(L.Characters)
 
 			local start, primary = 1, 0
-			local moreButton = false
+			local moreButton
 
 			for i, owner in Addon.Owners:Iterate() do
 				local overflow
