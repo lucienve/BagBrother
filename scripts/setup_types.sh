@@ -35,4 +35,17 @@ else
   cd - > /dev/null
 fi
 
+# Set up FrameXML annotations (which are a Git submodule in the original repository)
+FRAMEXML_DIR="${WOW_API_DIR}/Annotations/FrameXML"
+if [ ! -d "${FRAMEXML_DIR}/.git" ]; then
+  echo "Cloning FrameXML annotations..."
+  rm -rf "${FRAMEXML_DIR}"
+  git clone --depth 1 -b live https://github.com/NumyAddon/FramexmlAnnotations.git "${FRAMEXML_DIR}"
+else
+  echo "FrameXML annotations already exist. Updating..."
+  cd "${FRAMEXML_DIR}"
+  git pull origin live || echo "Failed to update FrameXML annotations, using existing version."
+  cd - > /dev/null
+fi
+
 echo "Type definitions successfully set up in ${WOW_API_DIR}/Annotations."

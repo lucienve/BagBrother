@@ -11,9 +11,15 @@
     "library": [
       ".types/wow-api/Annotations"
     ],
+    "ignoreDir": [
+      "libs",
+      ".types"
+    ],
     "checkThirdParty": "Disable"
   },
   "diagnostics": {
+    "libraryFiles": "Disable",
+    "ignoredFiles": "Disable",
     "globals": [
       "WOW_PROJECT_ID",
       "WOW_PROJECT_MAINLINE",
