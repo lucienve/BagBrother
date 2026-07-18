@@ -16,6 +16,7 @@
 ---@field Frames table Factory module for frames.
 ---@field GeneralOptions table Options panel module.
 ---@field sets table User settings/configuration table.
+BagBrotherAddon = {}
 
 ---Registers or fetches an addon module.
 ---@param name string Name of the module.
@@ -288,9 +289,6 @@ function PawnShouldItemLinkHaveUpgradeArrow(itemLink) end
 
 ---@type function Helper to generate closures.
 function GenerateClosure(func, ...) end
-
----@type BagBrotherAddon
-BagBrotherAddon = {}
 
 ---@type function
 function BankButtonIDToInvSlotID(slot) end
