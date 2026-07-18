@@ -43,7 +43,7 @@ end
 function Skins:Acquire(id, parent)
 	local skin = self:Get(id) or self:Get(self.Default)
 	if not skin[parent] then
-		local _,bg = xpcall(CreateFrame, Error, 'Frame', nil, parent, skin.template)
+		local _,bg = xpcall(CreateFrame, OnError, 'Frame', nil, parent, skin.template)
 		skin[parent] = setmetatable(bg or CreateFrame('Frame', nil, parent), self)
 	end
 
