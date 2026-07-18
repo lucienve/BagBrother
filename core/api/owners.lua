@@ -10,7 +10,7 @@ local DEFAULT_COORDS = {0, 1, 0, 1}
 local CLASS_COLOR = '|cff%02x%02x%02x'
 local ALLIANCE_BANNER = 'Interface/Icons/Inv_BannerPvP_02'
 local HORDE_BANNER = 'Interface/Icons/Inv_BannerPvP_01'
-local REALM_TAG = LIGHTGRAY_FONT_COLOR:WrapTextInColorCode(' (%s)')
+local REALM_TAG = LIGHTGRAY_FONT_COLOR and LIGHTGRAY_FONT_COLOR:WrapTextInColorCode(' (%s)') or ' (%s)'
 local RACE_TEXTURE, RACE_TABLE
 
 if Addon.IsClassic then

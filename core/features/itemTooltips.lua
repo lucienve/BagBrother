@@ -24,7 +24,9 @@ local function aggregate(counts, bag)
 			local id = singleton or tonumber(data:match('%d+'))
 			local count = not singleton and tonumber(data:match(';(%d+)$')) or 1
 
-			counts[id] = (counts[id] or 0) + count
+			if id then
+				counts[id] = (counts[id] or 0) + count
+			end
 		end
 	end
 end
