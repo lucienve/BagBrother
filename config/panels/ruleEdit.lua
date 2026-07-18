@@ -4,6 +4,12 @@
 --]]
 
 local L, ADDON, Addon, Config = select(2, ...).Addon()
+---@class RuleEditFrame : Frame, IconSelectorPopupFrameTemplateMixin
+---@field IconSelector IconSelectorPopupFrameTemplateMixin
+---@field BorderBox table
+---@field CodeHeader table
+---@field Code table
+---@field rule table
 local Frame = CreateFrame('Frame', nil, nil, 'IconSelectorPopupFrameTemplate')
 Addon.RuleEdit = Frame
 Addon.RuleEdit:Hide()
@@ -138,11 +144,13 @@ function Frame:Startup()
 	self.BorderBox.IconTypeDropdown:SetPoint('BOTTOMRIGHT', self.IconSelector, 'TOPRIGHT', -33,0)
 	self.BorderBox.EditBoxHeaderText:SetText('Enter Filter Name:')
 
+	---@type UIButtonFitToTextBehaviorMixin
 	self.BorderBox.DeleteButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate')
 	self.BorderBox.DeleteButton:SetScript('OnClick', GenerateClosure(self.OnDelete, self))
 	self.BorderBox.DeleteButton:SetPoint('BOTTOMLEFT', 13, 13)
 	self.BorderBox.DeleteButton:SetTextToFit(DELETE)
 
+	---@type UIButtonFitToTextBehaviorMixin
 	self.BorderBox.ShareButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate')
 	self.BorderBox.ShareButton:SetScript('OnClick', GenerateClosure(self.OnShare, self))
 	self.BorderBox.ShareButton:SetPoint('LEFT', self.BorderBox.DeleteButton, 'RIGHT', 0,0)
