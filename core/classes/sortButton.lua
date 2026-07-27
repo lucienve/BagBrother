@@ -59,7 +59,7 @@ function SortButton:OnClick(button)
 			menu:CreateCheckbox(L.ReverseSorting,
 				function()
 					if hasServer and self.frame.profile.serverSort then
-						return not C.Container.GetSortBagsRightToLeft()
+						return C.Container.GetSortBagsRightToLeft()
 					else
 						return self.frame.profile.reverseSort
 					end
