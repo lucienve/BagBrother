@@ -3,7 +3,18 @@
 	All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
+
+---@class FrameRegistryEntry
+---@field id string
+---@field name string
+---@field icon string|integer
+---@field addon string|false|nil
+---@field [0] table? -- Represents the created frame instance
+
+---@class AddonFrames : AddonModule
+---@field Registry FrameRegistryEntry[]
 local Frames = Addon:NewModule('Frames')
 Frames.Registry = {
 	{id = 'inventory', name = INVENTORY_TOOLTIP, icon = 130716},
@@ -15,14 +26,23 @@ Frames.Registry = {
 
 --[[ Frame Control ]]--
 
+---Triggers UPDATE_ALL signal to update all registered frames.
 function Frames:Update()
 	self:SendSignal('UPDATE_ALL')
 end
 
+---Toggles the visibility of a frame by ID.
+---@param id string
+---@param owner? any
+---@return table?
 function Frames:Toggle(id, owner)
 	return not self:IsShown(id) and self:Show(id, owner) or self:Hide(id)
 end
 
+---Shows a frame by ID, instantiating it if necessary.
+---@param id string
+---@param owner? any
+---@return table?
 function Frames:Show(id, owner)
 	local frame = self:New(id)
 	if frame then
@@ -32,40 +52,64 @@ function Frames:Show(id, owner)
 	return frame
 end
 
+---Hides a frame by ID.
+---@param id string
+---@return table
 function Frames:Hide(id)
 	local frame = self:Get(id)
+	---@cast frame any
 	if frame[0] then
 		frame:Hide()
 	end
 	return frame
 end
 
+---Checks if a frame is shown.
+---@param id string
+---@return boolean
 function Frames:IsShown(id)
 	local frame = self:Get(id)
-	return frame[0] and frame:IsShown()
+	---@cast frame any
+	return not not (frame[0] and frame:IsShown())
 end
 
 
 --[[ Bag Control ]]--
 
+---Toggles a frame associated with a bag slot.
+---@param frame string
+---@param bag integer
+---@return table?
 function Frames:ToggleBag(frame, bag)
 	if self:HasBag(frame, bag) then
 		return self:Toggle(frame)
 	end
 end
 
+---Shows a frame associated with a bag slot.
+---@param frame string
+---@param bag integer
+---@return table?
 function Frames:ShowBag(frame, bag)
 	if self:HasBag(frame, bag) then
 		return self:Show(frame)
 	end
 end
 
+---Hides a frame associated with a bag slot.
+---@param frame string
+---@param bag integer
+---@return table?
 function Frames:HideBag(frame, bag)
 	if self:HasBag(frame, bag) then
 		return self:Hide(frame)
 	end
 end
 
+---Checks if the frame is enabled and has/shows the given bag.
+---@param frame string
+---@param bag integer
+---@return boolean
 function Frames:HasBag(frame, bag)
 	return not (Addon.sets.displayBlizzard and Addon.player[bag].hidden) and self:IsEnabled(frame)
 end
@@ -73,6 +117,9 @@ end
 
 --[[ Registry ]]--
 
+---Creates/gets the frame instance for the given ID.
+---@param id string
+---@return table?
 function Frames:New(id)
 	if self:IsEnabled(id) then
 		local frame, i = self:Get(id)
@@ -86,15 +133,25 @@ function Frames:New(id)
  	end
 end
 
+---Gets the registry entry and its index for the given ID.
+---@param id string
+---@return FrameRegistryEntry, integer
 function Frames:Get(id)
 	local i, frame = FindInTableIf(self.Registry, function(frame) return frame.id == id end)
-	return frame, i
+	return frame, i --[[@as integer]]
 end
 
+---Iterates over the registered frames.
+---@return fun(t: table, i: integer): integer, FrameRegistryEntry
+---@return table
+---@return integer
 function Frames:Iterate()
 	return ipairs(self.Registry)
 end
 
+---Checks if the frame is enabled for the current character.
+---@param id string
+---@return boolean
 function Frames:IsEnabled(id)
 	local addon = self:Get(id).addon
 	if addon then

@@ -66,9 +66,15 @@ function OfflineSelector:OnClick(button)
 			drop:CreateTitle(L.Locations)
 
 			local frames = drop:CreateFrame()
-			frames:AddResetter(function(f) f.group:Release() end)
-			frames:AddInitializer(function(f)
+			frames:AddResetter(---@param f any
+			function(f) f.group:Release() end)
+			frames:AddInitializer(---@param f any
+			function(f)
 				f.group = self:AddLocations(f)
+				-- Dev: Redundant-return-value is disabled here because the custom frame initializer in WoW API
+				-- actually returns width and height for custom menus, which is currently missing from the upstream
+				-- vscode-wow-api annotations and is being fixed upstream.
+				---@diagnostic disable-next-line: redundant-return-value
 				return f.group:GetWidth() + (Addon.IsRetail and 0 or 10), f.group:GetHeight()
 			end)
 
@@ -76,7 +82,7 @@ function OfflineSelector:OnClick(button)
 			drop:CreateTitle(L.Characters)
 
 			local start, primary = 1, 0
-			local moreButton = false
+			local moreButton
 
 			for i, owner in Addon.Owners:Iterate() do
 				local overflow
