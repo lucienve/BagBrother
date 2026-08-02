@@ -24,7 +24,9 @@ local function aggregate(counts, bag)
 			local id = singleton or tonumber(data:match('%d+'))
 			local count = not singleton and tonumber(data:match(';(%d+)$')) or 1
 
-			counts[id] = (counts[id] or 0) + count
+			if id then
+				counts[id] = (counts[id] or 0) + count
+			end
 		end
 	end
 end
@@ -119,7 +121,7 @@ function TipCounts:AddOwners(tip, link)
 
 			for i, owner in Addon.Owners:Iterate() do
 				local color = owner:GetColorMarkup()
-				local count, locations = 0
+				local count, locations = 0, nil
 
 				if owner.offline and not owner.counts then
 					self:CountItems(owner)

@@ -14,13 +14,22 @@
 		called when the player opens or closes the given storage location by interacting with the world
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
+
+---@class AddonEvents : AddonModule
+---@field neverBanked boolean?
+---@field queue table<integer, boolean>
+---@field AtBank boolean?
+---@field AtVault boolean?
+---@field AtGuild boolean?
 local Events = Addon:NewModule('Events', 'MutexDelay-1.0')
 local C = LibStub('C_Everywhere').Container
 
 
 --[[ Events ]]--
 
+---OnLoad initialization.
 function Events:OnLoad()
 	self.neverBanked = true
 	self.queue = {}
@@ -47,6 +56,7 @@ function Events:OnLoad()
 	end
 end
 
+---Handler for BANKFRAME_OPENED.
 function Events:BANKFRAME_OPENED()
 	self:UpdateLocation('Bank', true)
 
@@ -60,6 +70,8 @@ function Events:BANKFRAME_OPENED()
 	end
 end
 
+---Handler for PLAYER_INTERACTION_MANAGER_FRAME_SHOW.
+---@param frame number
 function Events:PLAYER_INTERACTION_MANAGER_FRAME_SHOW(frame)
 	if frame == Enum.PlayerInteractionType.VoidStorageBanker then
 		self:UpdateLocation('Vault', true)
@@ -68,6 +80,8 @@ function Events:PLAYER_INTERACTION_MANAGER_FRAME_SHOW(frame)
 	end
 end
 
+---Handler for PLAYER_INTERACTION_MANAGER_FRAME_HIDE.
+---@param frame number
 function Events:PLAYER_INTERACTION_MANAGER_FRAME_HIDE(frame)
 	if frame == Enum.PlayerInteractionType.VoidStorageBanker then
 		self:UpdateLocation('Vault', false)
@@ -79,6 +93,9 @@ end
 
 --[[ API ]]--
 
+---Updates the cached state and sends open/close signal for the given location.
+---@param location string
+---@param state boolean
 function Events:UpdateLocation(location, state)
 	local key = 'At' .. location
 	if self[key] ~= state then -- server can fire multiple times
@@ -87,11 +104,13 @@ function Events:UpdateLocation(location, state)
 	end
 end
 
+---Fires BAGS_UPDATED and clears queue.
 function Events:UpdateBags()
 	self:SendSignal('BAGS_UPDATED', self.queue)
 	self.queue = {}
 end
 
+---Queues all bank bags.
 function Events:QueueBank()
 	for i = Addon.NumBags + 1, Addon.LastBankBag do
 		self.queue[i] = true
@@ -102,6 +121,8 @@ function Events:QueueBank()
 	end
 end
 
+---Queues a specific bag.
+---@param bag integer
 function Events:QueueBag(bag)
 	self.queue[bag] = true
 	self:Delay(0.08, 'UpdateBags')

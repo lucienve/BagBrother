@@ -113,7 +113,7 @@ function Vault:GetItemInfo(bag, slot)
 		end
 
 		if item.itemID then
-			_, item.hyperlink = GetItemInfo(item.itemID) 
+			_, item.hyperlink = C_Item.GetItemInfo(item.itemID) 
 			return item
 		end
 		return Addon.None

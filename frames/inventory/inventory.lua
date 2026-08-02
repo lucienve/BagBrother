@@ -12,9 +12,10 @@ Frame.ItemGroup = Addon.ContainerItemGroup
 Frame.BagButton = Addon.Bag
 Frame.Bags = Addon.InventoryBags
 Frame.PickupItem = C.PickupContainerItem
+---@type CheckButton[]
 Frame.MainMenuButtons = {
-	MainMenuBarBackpackButton,
-	CharacterBag0Slot, CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot
+	MainMenuBarBackpackButton --[[@as CheckButton]],
+	CharacterBag0Slot --[[@as CheckButton]], CharacterBag1Slot --[[@as CheckButton]], CharacterBag2Slot --[[@as CheckButton]], CharacterBag3Slot --[[@as CheckButton]]
 }
 
 if KeyRingButton then
@@ -45,7 +46,7 @@ function Frame:HighlightMainMenu()
 		elseif button.icon then
 			button:SetChecked(active)
 		elseif active then
-			button:SetButtonState('PUSHED', 1)
+			button:SetButtonState('PUSHED', true)
 		else
 			button:SetButtonState('NORMAL')
 		end
@@ -88,7 +89,7 @@ function Frame:GetBagFamily(bag)
 		if self:IsCached(bag) then
 			local data = self:GetBagInfo(bag)
 			if data and data.link then
-				family = GetItemFamily('item:' .. data.link)
+				family = C_Item.GetItemFamily('item:' .. data.link)
 			end
 		else
 			family = select(2, C.GetContainerNumFreeSlots(bag))

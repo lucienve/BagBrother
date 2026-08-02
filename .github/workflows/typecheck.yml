@@ -1,0 +1,26 @@
+name: Type Check Code Base
+
+on:
+  pull_request: ~
+  push:
+    branches:
+      - master
+      - feature/lua-typing
+
+jobs:
+  typecheck:
+    name: LuaLS Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+
+      - name: Setup WoW API Annotations
+        run: |
+          bash scripts/setup_types.sh
+
+      - name: Type Check Code Base
+        uses: mrcjkb/lua-typecheck-action@v1
+        with:
+          checklevel: Warning
+          configpath: ".luarc.json"

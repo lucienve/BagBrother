@@ -256,7 +256,7 @@ do
 	Item.Dummy = CreateFrame('Button')
 	Item.Dummy:SetScript('OnEnter', cachedTip)
 	Item.Dummy:SetScript('OnShow', cachedTip)
-	Item.Dummy:RegisterForClicks('anyUp')
+	Item.Dummy:RegisterForClicks('AnyUp')
 	Item.Dummy:SetToplevel(true)
 
 	Item.Dummy:SetScript('OnClick', function(dummy, button)
