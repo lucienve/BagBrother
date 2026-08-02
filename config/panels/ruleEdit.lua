@@ -4,6 +4,12 @@
 --]]
 
 local L, ADDON, Addon, Config = select(2, ...).Addon()
+---@class RuleEditFrame : Frame, IconSelectorPopupFrameTemplateMixin
+---@field IconSelector ScrollBoxSelectorMixin
+---@field BorderBox table
+---@field CodeHeader table
+---@field Code table
+---@field rule table
 local Frame = CreateFrame('Frame', nil, nil, 'IconSelectorPopupFrameTemplate')
 Addon.RuleEdit = Frame
 Addon.RuleEdit:Hide()
@@ -39,9 +45,12 @@ function Frame:OpenMenu(anchor)
 				editBox = '',
 
 				OnAccept = function(_, encoded)
-					local ok, rule = pcall(loadstring('return ' .. encoded))
-					if ok and rule then
-						self:Create(rule)
+					local func = loadstring('return ' .. encoded)
+					if func then
+						local ok, rule = pcall(func)
+						if ok and rule then
+							self:Create(rule)
+						end
 					end
 				end
 			}
@@ -53,6 +62,7 @@ function Frame:CreateCheckboxes(drop, rules)
 	local isInstalled = function(id)
 		return Addon.Rules:Get(id) and 1 or 0 end
 
+	---@type any
 	local anchor = self:GetParent()
 	local enabled, frame = anchor.rules, anchor.frame
 
@@ -101,7 +111,9 @@ function Frame:Display(rule)
 	self:Startup()
 	self:Show()
 
-	local frame = self:GetParent().frame
+	---@type any
+	local parent = self:GetParent()
+	local frame = parent.frame
 	if frame:IsFarRight() then
 		self:SetPoint('TOPRIGHT', frame, 'TOPLEFT', -38,0)
 	else
@@ -138,12 +150,14 @@ function Frame:Startup()
 	self.BorderBox.IconTypeDropdown:SetPoint('BOTTOMRIGHT', self.IconSelector, 'TOPRIGHT', -33,0)
 	self.BorderBox.EditBoxHeaderText:SetText('Enter Filter Name:')
 
-	self.BorderBox.DeleteButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate')
+	---@type UIButtonFitToTextBehaviorMixin
+	self.BorderBox.DeleteButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate') --[[@as UIButtonFitToTextBehaviorMixin]]
 	self.BorderBox.DeleteButton:SetScript('OnClick', GenerateClosure(self.OnDelete, self))
 	self.BorderBox.DeleteButton:SetPoint('BOTTOMLEFT', 13, 13)
 	self.BorderBox.DeleteButton:SetTextToFit(DELETE)
 
-	self.BorderBox.ShareButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate')
+	---@type UIButtonFitToTextBehaviorMixin
+	self.BorderBox.ShareButton = CreateFrame('Button', nil, self.BorderBox, 'UIPanelButtonNoTooltipTemplate') --[[@as UIButtonFitToTextBehaviorMixin]]
 	self.BorderBox.ShareButton:SetScript('OnClick', GenerateClosure(self.OnShare, self))
 	self.BorderBox.ShareButton:SetPoint('LEFT', self.BorderBox.DeleteButton, 'RIGHT', 0,0)
 	self.BorderBox.ShareButton:SetTextToFit(SOCIAL_SHARE_TEXT)

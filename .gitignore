@@ -1,3 +1,7 @@
 .drafts
 .DS_Store*
 Icon?
+.types/
+.agents
+docs/project_context.md
+.check-log/

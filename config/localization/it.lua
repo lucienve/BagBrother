@@ -5,6 +5,7 @@
 local CONFIG = ...
 local L = LibStub('AceLocale-3.0'):NewLocale(CONFIG, 'itIT')
 if not L then return end
+---@cast L table<string, any>
 
 -- filters
 L.InstalledFilters = 'Filtri installati'

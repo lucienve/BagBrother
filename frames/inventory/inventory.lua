@@ -11,9 +11,10 @@ Frame.Title = LibStub('AceLocale-3.0'):GetLocale(ADDON).TitleBags
 Frame.ItemGroup = Addon.InventoryItemGroup
 Frame.BagButton = Addon.Bag
 Frame.Bags = Addon.InventoryBags
+---@type CheckButton[]
 Frame.MainMenuButtons = {
-	MainMenuBarBackpackButton,
-	CharacterBag0Slot, CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot
+	MainMenuBarBackpackButton --[[@as CheckButton]],
+	CharacterBag0Slot --[[@as CheckButton]], CharacterBag1Slot --[[@as CheckButton]], CharacterBag2Slot --[[@as CheckButton]], CharacterBag3Slot --[[@as CheckButton]]
 }
 
 if KeyRingButton then
@@ -44,7 +45,7 @@ function Frame:HighlightMainMenu()
 		elseif button.icon then
 			button:SetChecked(active)
 		elseif active then
-			button:SetButtonState('PUSHED', 1)
+			button:SetButtonState('PUSHED', true)
 		else
 			button:SetButtonState('NORMAL')
 		end

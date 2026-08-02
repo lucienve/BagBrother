@@ -9,7 +9,8 @@ local C = LibStub('C_Everywhere').Bank
 local Sushi = LibStub('Sushi-3.2')
 
 local Bag = Addon.Bag:NewClass('BankBag', 'CheckButton')
-Bag.Settings = CreateFrame('Frame', nil, nil, C.CanPurchaseBankTab and 'BankPanelTabSettingsMenuTemplate')
+---@type BankPanelTabSettingsMenuTemplate
+Bag.Settings = CreateFrame('Frame', nil, nil, C.CanPurchaseBankTab and 'BankPanelTabSettingsMenuTemplate') --[[@as BankPanelTabSettingsMenuTemplate]]
 Bag.Settings:Hide()
 Bag.Proxies = {
 	generic = BankPanel and BankPanel.PurchasePrompt.TabCostFrame.PurchaseButton,
