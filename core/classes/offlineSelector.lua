@@ -66,8 +66,10 @@ function OfflineSelector:OnClick(button)
 			drop:CreateTitle(L.Locations)
 
 			local frames = drop:CreateFrame()
-			frames:AddResetter(function(f) f.group:Release() end)
-			frames:AddInitializer(function(f)
+			frames:AddResetter(---@param f any
+			function(f) f.group:Release() end)
+			frames:AddInitializer(---@param f any
+			function(f)
 				f.group = self:AddLocations(f)
 				return f.group:GetWidth() + (Addon.IsMainline and 0 or 10), f.group:GetHeight()
 			end)
@@ -76,7 +78,7 @@ function OfflineSelector:OnClick(button)
 			drop:CreateTitle(L.Characters)
 
 			local start, primary = 1, 0
-			local moreButton = false
+			local moreButton
 
 			for i, owner in Addon.Owners:Iterate() do
 				local overflow

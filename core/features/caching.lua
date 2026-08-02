@@ -220,17 +220,19 @@ function Cacher:GUILDBANKBAGSLOTS_CHANGED()
 		end
 
 		local tab = GetCurrentGuildBankTab()
-		local data = guild[tab]
-		if data and select(3, GetGuildBankTabInfo(tab)) then
-			local items = {}
-			for i = 1, 98 do
-				local link = GetGuildBankItemLink(tab, i)
-				local _, count = GetGuildBankItemInfo(tab, i)
+		if tab then
+			local data = guild[tab]
+			if data and select(3, GetGuildBankTabInfo(tab)) then
+				local items = {}
+				for i = 1, 98 do
+					local link = GetGuildBankItemLink(tab, i)
+					local _, count = GetGuildBankItemInfo(tab, i)
 
-				items[i] = self:ParseItem(link, count)
+					items[i] = self:ParseItem(link, count)
+				end
+
+				data.items = items
 			end
-
-			data.items = items
 		end
 	end
 end
@@ -244,7 +246,7 @@ end
 
 function Cacher:SaveBank(domain, type)
 	for i, bag in pairs(C.Bank.FetchPurchasedBankTabData(type)) do
-		bag.tabNameEditBoxHeader, bag.tabCleanupConfirmation = nil
+		bag.tabNameEditBoxHeader, bag.tabCleanupConfirmation = nil, nil
 		Mixin(self:PopulateBag(domain, bag.ID), bag)
 	end
 end
@@ -268,7 +270,7 @@ function Cacher:PopulateBag(data, bag, ignore)
 			end
 		end
 	else
-		data.items, data.link, data.size = nil
+		data.items, data.link, data.size = nil, nil, nil
 	end
 
 	return data

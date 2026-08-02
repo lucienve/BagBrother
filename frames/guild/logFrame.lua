@@ -6,11 +6,9 @@
 local ADDON, Addon = (...):match('[^_]+'), _G[(...):match('[^_]+')]
 local Log = Addon.Parented:NewClass('LogFrame', 'ScrollingMessageFrame')
 
-local MESSAGE_PREFIX, _ = '|cff009999   '
+local MESSAGE_PREFIX = '|cff009999   '
 local MAX_TRANSACTIONS = 22
 local LOG_TYPES = {
-	deposit = GUILDBANK_DEPOSIT_FORMAT,
-	withdraw = GUILDBANK_WITHDRAW_FORMAT,
 	move = GUILDBANK_MOVE_FORMAT,
 	deposit = GUILDBANK_DEPOSIT_MONEY_FORMAT,
 	withdraw = GUILDBANK_WITHDRAW_MONEY_FORMAT,
@@ -92,7 +90,7 @@ end
 
 function Log:PrintTransactions()
 	for i = 1, self.numTransactions do 
-		local type, name, itemLink, count, tab1, tab2, year, month, day, hour = self:ProcessLine(GetGuildBankTransaction(GetCurrentGuildBankTab(), i))
+		local type, name, itemLink, count, tab1, tab2, year, month, day, hour = self:ProcessLine(GetGuildBankTransaction(GetCurrentGuildBankTab() or 1, i))
 		local msg
 
 		if type == 'deposit' then
