@@ -82,7 +82,7 @@ function Cacher:OnLoad()
 
 	for id = 1, 5000 do
 		local data = C.CurrencyInfo.GetCurrencyInfo(id)
-		if data and data.quantity > 0 and data.quality > 0 and not C.CurrencyInfo.IsAccountWideCurrency(id) then
+		if data and data.quantity > 0 and not C.CurrencyInfo.IsAccountWideCurrency(id) then
 			self.player.currency[id] = data.quantity
 		end
 	end

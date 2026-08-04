@@ -40,7 +40,7 @@ end
 
 if C.Bank.AreAnyBankTypesViewable then
 	function Item:PreClick(button)
-		if C.Bank.AreAnyBankTypesViewable() and self.hasItem then
+		if Addon.Events.AtBank and self.hasItem then
 			if button == 'RightButton' and Addon.Frames:IsEnabled('bank') then
 				local bankType = Addon_GetBankType()
 				bankType = IsShiftKeyDown() and (2 - bankType) or bankType

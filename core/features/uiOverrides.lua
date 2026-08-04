@@ -37,7 +37,10 @@ function Overrides:OnLoad()
 
 	if BackpackTokenFrame then
 		if ContainerFrame1.UpdateCurrencyFrames then
-			hooksecurefunc(ContainerFrame1, 'UpdateCurrencyFrames', function()
+			hooksecurefunc(ContainerFrame1, 'UpdateCurrencyFrames', function(f)
+				f.MoneyFrame:SetPoint('BOTTOMLEFT', 8, 8)
+				f.MoneyFrame:SetPoint('BOTTOMRIGHT', -8, 8)
+
 				BackpackTokenFrame:ClearAllPoints()
 				BackpackTokenFrame:SetWidth(Addon.CurrencyLimit * 50)
 			end)
@@ -48,8 +51,11 @@ function Overrides:OnLoad()
 
 	for i = 1, NUM_CONTAINER_FRAMES do
 		hooksecurefunc(_G['ContainerFrame' .. i], 'SetID', function(frame, bag)
-			local disabled = Addon.Frames:HasBag(Location(bag))
-			frame:SetParent(disabled and self.Disabled or Parent)
+			if Addon.Frames:HasBag(Location(bag)) then
+				frame:SetParent(self.Disabled)
+			elseif frame:GetParent() == self.Disabled then
+				frame:SetParent(Parent)
+			end
 		end)
 	end
 
