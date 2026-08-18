@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 	A databroker display object that cycles between plugins.
 	All Rights Reserved
 --]]
