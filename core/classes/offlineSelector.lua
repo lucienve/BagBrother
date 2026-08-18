@@ -89,7 +89,7 @@ function OfflineSelector:OnClick(button)
 				if owner.isguild and start == 1 then
 					drop:CreateDivider()
 					drop:CreateTitle(L.Guilds)
-					start, more = i, false
+					start, moreButton = i, nil
 				else
 					overflow = (i-start) >= 10 and not owner.favorite
 					if not overflow then

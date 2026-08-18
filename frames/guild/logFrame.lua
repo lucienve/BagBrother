@@ -115,6 +115,7 @@ function Log:PrintMoney()
 	for i = 1, self.numTransactions do
 		local type, name, amount, year, month, day, hour = self:ProcessLine(GetGuildBankMoneyTransaction(i))
 		local money = GetDenominationsFromCopper(amount)
+		local msg
 
 		if type == 'buyTab' then
 			msg = amount > 0 and GUILDBANK_BUYTAB_MONEY_FORMAT:format(name, money) or GUILDBANK_UNLOCKTAB_FORMAT:format(name)
