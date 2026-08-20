@@ -35,7 +35,14 @@ Item.BagFamilies = {
 function Item:Construct()
 	local b = self:Super(Item):Construct()
 	b.Cooldown:SetScript('OnCooldownDone', function() SetItemButtonTextureVertexColor(b, 1,1,1) end)
+	b:UpdatePreClick()
 	return b
+end
+
+function Item:UpdatePreClick()
+	if C.Bank.AreAnyBankTypesViewable then
+		self:SetScript('PreClick', Addon.Events.AtBank and self.PreClick or nil)
+	end
 end
 
 if C.Bank.AreAnyBankTypesViewable then
@@ -63,6 +70,7 @@ end
 function Item:Update(...)
 	self:Super(Item):Update(...)
 	self:UpdateCooldown()
+	self:UpdatePreClick()
 
 	local r,g,b = 1,1,1
 	if not self.hasItem then

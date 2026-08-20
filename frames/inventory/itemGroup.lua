@@ -4,7 +4,7 @@
 --]]
 
 local ADDON, Addon =  ...
-local C = LibStub('C_Everywhere').Container
+local C = LibStub('C_Everywhere')
 
 local Items = Addon.ItemGroup:NewClass('ContainerItemGroup')
 Items.Button = Addon.ContainerItem
@@ -22,6 +22,11 @@ function Items:RegisterEvents()
 		self:RegisterEvent('QUEST_ACCEPTED', 'ForAll', 'UpdateBorder')
 	else
 		self:RegisterSignal('BANK_OPEN', 'RegisterEvents')
+	end
+
+	if C.Bank.AreAnyBankTypesViewable then
+		self:RegisterSignal('BANK_OPEN', 'ForAll', 'UpdatePreClick')
+		self:RegisterSignal('BANK_CLOSE', 'ForAll', 'UpdatePreClick')
 	end
 end
 

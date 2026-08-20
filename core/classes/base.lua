@@ -11,7 +11,7 @@ Base.Scripts = {
 	'OnEnter', 'OnLeave',
 	'OnDragStart', 'OnReceiveDrag',
 	'OnMouseDown', 'OnMouseUp', 'OnMouseWheel',
-	'OnClick', 'PostClick', 'PreClick', 'OnDoubleClick', 'OnHyperlinkClick',
+	'OnClick', 'PostClick', 'OnDoubleClick', 'OnHyperlinkClick',
 	'OnSizeChanged', 'OnTextChanged', 'OnEscapePressed', 'OnEnterPressed',
 }
 
