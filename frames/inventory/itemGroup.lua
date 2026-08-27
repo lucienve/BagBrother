@@ -27,6 +27,8 @@ function Items:RegisterEvents()
 	if C.Bank.AreAnyBankTypesViewable then
 		self:RegisterSignal('BANK_OPEN', 'ForAll', 'UpdatePreClick')
 		self:RegisterSignal('BANK_CLOSE', 'ForAll', 'UpdatePreClick')
+		self:RegisterEvent('PLAYER_REGEN_DISABLED', 'ForAll', 'UpdatePreClick')
+		self:RegisterEvent('PLAYER_REGEN_ENABLED', 'ForAll', 'UpdatePreClick')
 	end
 end
 

@@ -41,13 +41,14 @@ end
 
 function Item:UpdatePreClick()
 	if C.Bank.AreAnyBankTypesViewable then
-		self:SetScript('PreClick', Addon.Events.AtBank and self.PreClick or nil)
+		local enable = Addon.Events.AtBank and not InCombatLockdown()
+		self:SetScript('PreClick', enable and self.BankPreClick or nil)
 	end
 end
 
 if C.Bank.AreAnyBankTypesViewable then
-	function Item:PreClick(button)
-		if Addon.Events.AtBank and self.hasItem then
+	function Item:BankPreClick(button)
+		if Addon.Events.AtBank and not InCombatLockdown() and self.hasItem then
 			if button == 'RightButton' and Addon.Frames:IsEnabled('bank') then
 				local bankType = Addon_GetBankType()
 				bankType = IsShiftKeyDown() and (2 - bankType) or bankType
@@ -70,7 +71,6 @@ end
 function Item:Update(...)
 	self:Super(Item):Update(...)
 	self:UpdateCooldown()
-	self:UpdatePreClick()
 
 	local r,g,b = 1,1,1
 	if not self.hasItem then
