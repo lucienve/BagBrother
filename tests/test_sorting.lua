@@ -432,9 +432,10 @@ end
 -- =========================================================================
 print("\n[Test 8] CanRun Lifecycle Conditions")
 do
+	local cachedState = false
 	local target = {
 		id = "inventory",
-		IsCached = function(self) return false end,
+		IsCached = function(self) return cachedState end,
 	}
 	Sort.target = target
 
@@ -450,9 +451,9 @@ do
 	assertFalse(Sort:CanRun(), "CanRun is false when UnitIsDead is true")
 	deadState = false
 
-	target.IsCached = function(self) return true end
+	cachedState = true
 	assertFalse(Sort:CanRun(), "CanRun is false when target:IsCached is true")
-	target.IsCached = function(self) return false end
+	cachedState = false
 
 	Sort.target = nil
 	assertFalse(Sort:CanRun(), "CanRun is false when Sort.target is nil")
