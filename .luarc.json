@@ -13,7 +13,8 @@
     ],
     "ignoreDir": [
       "libs",
-      ".types"
+      ".types",
+      "tests"
     ],
     "checkThirdParty": "Disable"
   },
@@ -21,11 +22,6 @@
     "libraryFiles": "Disable",
     "ignoredFiles": "Disable",
     "globals": [
-      "WOW_PROJECT_ID",
-      "WOW_PROJECT_MAINLINE",
-      "LE_EXPANSION_LEVEL_CURRENT",
-      "LE_EXPANSION_CLASSIC",
-      "LE_EXPANSION_CATACLYSM",
       "SLASH_BagBrother1",
       "SLASH_BagBrother2"
     ]
