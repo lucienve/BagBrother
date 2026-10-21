@@ -4,6 +4,7 @@
 --]]
 
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
 local Item = Addon.Item:NewClass('ContainerItem')
 local C = LibStub('C_Everywhere')

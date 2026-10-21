@@ -3,6 +3,7 @@
 	All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
 local Items = Addon.ContainerGroup:NewClass('InventoryItemGroup')
 Items.MaxSlots = {

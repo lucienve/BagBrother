@@ -13,9 +13,12 @@
 ---@field Delaying fun(self: table, func: string|function): boolean
 
 ---@class BagBrotherAddon : AddonModule
+---@field IsForever boolean True if running on WoW Classic Era Forever / Anniversary realms.
 ---@field IsRetail boolean True if running on WoW Retail (Mainline).
+---@field IsMainline boolean True if running on WoW Mainline or Forever realms.
 ---@field IsClassic boolean True if running on WoW Classic.
 ---@field IsModern boolean True if running on WoW Cataclysm or newer client.
+---@field Ready boolean? True after initial inventory frame warmup completes.
 ---@field NumBags integer Total number of equipped bag slots.
 ---@field LastBankBag integer Index of the last bank bag.
 ---@field LastAccountBag integer Index of the last account bank bag.
@@ -23,6 +26,7 @@
 ---@field InventoryBags integer[] List of slot indexes representing player inventory bags.
 ---@field BankBags integer[] List of slot indexes representing bank bags.
 ---@field BankType integer Current bank view type (e.g. standard, reagent, etc.).
+---@field Events AddonEvents Events module.
 ---@field Frames AddonFrames Factory module for frames.
 ---@field GeneralOptions table Options panel module.
 ---@field sets table User settings/configuration table.
@@ -34,6 +38,29 @@
 ---@field Rules AddonRules Rules module.
 ---@field Sorting AddonSorting Sorting module.
 ---@field Base Base Base class.
+---@field Parented table Parented widget base class.
+---@field Tipped table Tooltip-enabled widget base class.
+---@field Frame table Window frame base class.
+---@field ContainerFrame table Container window frame class.
+---@field ItemGroup table Item grid base class.
+---@field ContainerGroup table Container item grid class.
+---@field InventoryItemGroup table Inventory item grid class.
+---@field BankItemGroup table Bank item grid class.
+---@field GuildItemGroup table Guild item grid class.
+---@field VaultItemGroup table Vault item grid class.
+---@field Item table Item slot button base class.
+---@field ContainerItem table Container item slot button class.
+---@field Bag table Bag button class.
+---@field BankBag table Bank bag button class.
+---@field BankTab table? Bank tab class.
+---@field GuildTab table Guild tab class.
+---@field AccountMoney table Account money frame class.
+---@field GuildMoney table Guild money frame class.
+---@field DepositButton table? Deposit button class.
+---@field TransferButton table Vault transfer button class.
+---@field LogFrame table Guild log frame class.
+---@field LogToggle table Guild log toggle class.
+---@field RuleEdit RuleEditFrame? Rule editor frame.
 ---@field None table Empty fallback table.
 BagBrotherAddon = {}
 
@@ -203,6 +230,22 @@ KEYRING_CONTAINER = 0
 KeyRingButton = {}
 KeyRingButtonIDToInvSlotID = {}
 LAYOUT_STYLE_MODERN = 0
+---@type number
+WOW_PROJECT_ID = WOW_PROJECT_ID
+---@type number
+WOW_PROJECT_MAINLINE = WOW_PROJECT_MAINLINE
+---@type number
+LE_EXPANSION_LEVEL_CURRENT = LE_EXPANSION_LEVEL_CURRENT
+---@type number
+LE_EXPANSION_CLASSIC = LE_EXPANSION_CLASSIC
+---@type number
+LE_EXPANSION_BURNING_CRUSADE = LE_EXPANSION_BURNING_CRUSADE
+---@type number
+LE_EXPANSION_WRATH_OF_THE_LICH_KING = LE_EXPANSION_WRATH_OF_THE_LICH_KING
+---@type number
+LE_EXPANSION_CATACLYSM = LE_EXPANSION_CATACLYSM
+---@type number
+LE_EXPANSION_MISTS_OF_PANDARIA = LE_EXPANSION_MISTS_OF_PANDARIA
 LE_FRAME_TUTORIAL_BAG_SLOTS_AUTHENTICATOR = 0
 LE_FRAME_TUTORIAL_EQUIP_REAGENT_BAG = 0
 LE_FRAME_TUTORIAL_HUD_REVAMP_BAG_CHANGES = 0
@@ -312,6 +355,14 @@ function GenerateClosure(func, ...) end
 ---@type function
 function BankButtonIDToInvSlotID(slot) end
 
+---Sets the current bank type view.
+---@param type integer
+function Addon_SetBankType(type) end
+
+---Gets the current bank type view.
+---@return integer
+function Addon_GetBankType() end
+
 -------------------------------------------------------------------------------
 -- Redefined & Overloaded Types for Libs / WoW APIs
 -------------------------------------------------------------------------------
@@ -371,3 +422,16 @@ function BankPanelTabSettingsMenuTemplate:Update() end
 ---@param b? number
 ---@param wrap? boolean
 function GameTooltip:AddLine(text, r, g, b, wrap) end
+
+---@class SharedMenuDescriptionProxy
+local SharedMenuDescriptionProxy = {}
+---@overload fun(self: SharedMenuDescriptionProxy, initializer: (fun(frame: any, elementDescription?: ElementMenuDescriptionProxy, menu?: MenuProxy): number?, number?), index?: number)
+---@param initializer MenuDescriptionInitializer
+---@param index? number
+function SharedMenuDescriptionProxy:AddInitializer(initializer, index) end
+
+---@param money number
+---@param separateThousands? boolean
+---@param checkGoldThreshold? boolean
+---@return string
+function GetMoneyString(money, separateThousands, checkGoldThreshold) end

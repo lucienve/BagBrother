@@ -3,6 +3,7 @@
 	All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = (...):match('%w+'), _G[(...):match('%w+')]
 local Items = Addon.ContainerGroup:NewClass('BankItemGroup')
 

@@ -3,6 +3,7 @@
 	All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
 local C = LibStub('C_Everywhere')
 local Frame = Addon.Frame:NewClass('ContainerFrame')

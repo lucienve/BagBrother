@@ -3,6 +3,7 @@
 	All Rights Reserved
 --]]
 
+---@type string, BagBrotherAddon
 local ADDON, Addon = ...
 local Items = Addon.ItemGroup:NewClass('ContainerGroup')
 Items.Button = Addon.ContainerItem
