@@ -435,3 +435,12 @@ function SharedMenuDescriptionProxy:AddInitializer(initializer, index) end
 ---@param checkGoldThreshold? boolean
 ---@return string
 function GetMoneyString(money, separateThousands, checkGoldThreshold) end
+
+TimeUtil = {}
+
+---@param year? number
+---@param month? number
+---@param day? number
+---@param hour? number
+---@return string
+function TimeUtil.GetRecentTimeDate(year, month, day, hour) end

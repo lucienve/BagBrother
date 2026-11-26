@@ -54,7 +54,7 @@ function Bag:UpdateInfo()
 	if self:IsRealBag() then
 		self:Super(Bag):UpdateInfo()
 	else
-		self.icon, self.owned = nil
+		self.icon, self.owned = nil, nil
 	end
 
 	if C.FetchPurchasedBankTabData then
